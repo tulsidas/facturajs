@@ -1,5 +1,4 @@
 import moment = require('moment');
-import 'source-map-support/register';
 import { AfipServices } from '../AfipServices';
 import { IConfigService } from '../IConfigService';
 
@@ -15,55 +14,57 @@ const config: IConfigService = {
 };
 
 const afip = new AfipServices(config);
-const cuit = 27310090854;
 
-async function monotributoExample() {
+async function monotributo(importe: number, CUIT: number, DocTipo = 99, DocNro = 0, Concepto = 1) {
     const res = await afip.getLastBillNumber({
-        Auth: { Cuit: cuit },
+        Auth: { Cuit: CUIT },
         params: {
-            CbteTipo: 11,
-            PtoVta: 2,
+            CbteTipo: 11,   // factura C
+            PtoVta: 2,      // 2?
         },
     });
-    console.log('Last bill number: ', res.CbteNro);
-    const num = res.CbteNro;
-    const next = num + 1;
-    console.log('Next bill number to create: ', next);
-    const resBill = await afip.createBill({
-        Auth: { Cuit: cuit },
-        params: {
-            FeCAEReq: {
-                FeCabReq: {
-                    CantReg: 1,
-                    PtoVta: 2,
-                    // monotributo
-                    CbteTipo: 11,
-                },
-                FeDetReq: {
-                    FECAEDetRequest: {
-                        DocTipo: 99,
-                        DocNro: 0,
-                        Concepto: 1,
-                        CbteDesde: next,
-                        CbteHasta: next,
-                        CbteFch: moment().format('YYYYMMDD'),
-                        ImpTotal: 75.0,
-                        ImpTotConc: 0,
-                        ImpNeto: 75.0,
-                        ImpOpEx: 0,
-                        ImpIVA: 0,
-                        ImpTrib: 0,
-                        MonId: 'PES',
-                        MonCotiz: 1,
+
+    if (res.CbteNro) {
+        console.log('Último comprobante: ', res.CbteNro);
+        const next = res.CbteNro + 1;
+        console.log('Comprobante a crear: ', next);
+        const resBill = await afip.createBill({
+            Auth: { Cuit: CUIT },
+            params: {
+                FeCAEReq: {
+                    FeCabReq: {
+                        CantReg: 1,     // crear 1 comprobante
+                        PtoVta: 2,      // 2?
+                        CbteTipo: 11,   // Factura C
+                    },
+                    FeDetReq: {
+                        FECAEDetRequest: {
+                            DocTipo,            // Código de documento identificatorio del comprador
+                            DocNro,             // Nro. De identificación del comprador
+                            Concepto,           // 1: Productos, 2: Servicios, 3: Productos y Servicios
+                            CbteDesde: next,
+                            CbteHasta: next,
+                            CbteFch: moment().format('YYYYMMDD'),
+                            ImpTotal: importe,  // Importe total del comprobante
+                            ImpTotConc: 0,      // Importe neto no gravado. Para comprobantes tipo C debe ser igual a cero (0).
+                            ImpNeto: importe,   // Importe neto gravado. Para comprobantes tipo C este campo corresponde al Importe del SubTotal.
+                            ImpOpEx: 0,         // Importe exento. Para comprobantes tipo C debe ser igual a cero (0).
+                            ImpIVA: 0,          // Suma de los importes del array de IVA. Para comprobantes tipo C debe ser igual a cero (0).
+                            ImpTrib: 0,         // Suma de los importes del array de tributos
+                            MonId: 'PES',
+                            MonCotiz: 1,        // Cotizaciónde la moneda informada. Para PES, pesos argentinos la misma debe ser 1
+                        },
                     },
                 },
             },
-        },
-    });
-    console.log('Created bill', JSON.stringify(resBill, null, 4));
+        });
+        console.log('Created bill', JSON.stringify(resBill, null, 4));
+    } else {
+        console.error('AFIP no devolvió el número del último comprobante :(');
+    }
 }
 
-monotributoExample().catch((err) => {
-    console.error('Something was wrong!');
+monotributo(123.45, 1234567890).catch((err) => {
+    console.error('Algo falló');
     console.error(err);
 });

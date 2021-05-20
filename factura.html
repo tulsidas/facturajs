@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <script type="text/javascript" src="https://livejs.com/live.js"></script>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      width: 1240px;
+      /* height: 876px; */
+      height: 976px;
+      font-family: monospace;
+      font-size: 24px;
+    }
+
+    .center-text {
+      text-align: center;
+    }
+
+    .right-text {
+      text-align: right;
+    }
+
+    .border-div {
+      border: solid 1px #000000;
+      margin-bottom: 33px;
+      padding: 5px;
+    }
+
+    .responsive-table {
+      width: 100%;
+    }
+
+    .table-article th {
+      background-color: #ccc;
+      padding: 2px;
+    }
+
+    .logo {
+      width: 100px;
+    }
+
+    .type_voucher {
+      font-size: 36px;
+    }
+  </style>
+</head>
+
+<body>
+  <page>
+    <div class='border-div'>
+      <table class='responsive-table table-header'>
+        <tr>
+          <td>
+            <span class='type_voucher'><strong>@@NOMBRE FANTASÍA@@</strong></span>
+          </td>
+          <td class='center-text' style='width: 27%;'>
+            <span class='type_voucher'
+              style="border: solid 1px #000000; font-size: 72px;"><strong>&nbsp;C&nbsp;<strong></span>
+          </td>
+          <td class='right-text' style='width: 30%;'>
+            <span class='type_voucher'><strong>FACTURA</strong></span>
+          </td>
+        </tr>
+      </table>
+      <table class='responsive-table'>
+        <tr>
+          <td style='width:50%;'><strong>Raz&oacute;n social</strong>: @@RAZON SOCIAL@@</td>
+          <td class='right-text'><strong>Punto de Venta</strong>: {{ptoventa}} <strong>Nro</strong>: {{numero}}
+          </td>
+        </tr>
+        <tr>
+          <td style='width:50%;'><strong>Domicilio comercial</strong>: @@DOMICILIO@@</td>
+          <td class='right-text'><strong>Fecha de emisi&oacute;n</strong>: {{fecha}}</td>
+        </tr>
+        <tr>
+          <td style='width:50%;'><strong>Condición frente al IVA</strong>: @@CONDICION IVA@@</td>
+          <td class='right-text'><strong>CUIT</strong>: @@CUIT@@</td>
+        </tr>
+        <tr>
+          <td style='width:50%;'><strong>Ingresos Brutos</strong>: @@CONDICION IIBB@@</td>
+          <td class='right-text'><strong>Fecha de Inicio de Actividades</strong>: @@INICIO ACTIVIDADES@@</td>
+        </tr>
+      </table>
+    </div>
+    <div class='border-div'>
+      <table class='responsive-table table-header'>
+        <tr>
+          <td colspan="2"><strong>Nombre y Apellido</strong>: {{nombreyapellido}}</td>
+        </tr>
+        <tr>
+          <td><strong>Condición frente al IVA</strong>: Consumidor Final</td>
+          <td class='right-text'><strong>Condición de venta</strong>: Contado</td>
+        </tr>
+      </table>
+    </div>
+
+    <table class='responsive-table table-article'>
+      <tr>
+        <th style='width: 85%;'>CONCEPTO</th>
+        <th class='right-text' style='width: 15%;'>Subtotal</th>
+      </tr>
+      <tr>
+        <td>{{concepto}}</td>
+        <td class='right-text' height="100px">${{importe}}</td>
+      </tr>
+    </table>
+    <div class='border-div'>
+      <table class="responsive-table">
+        <tr>
+          <td class="right-text">Subtotal:</td>
+          <td class="right-text" style="width: 20%;">${{importe}}</td>
+        </tr>
+        <tr>
+          <td class="right-text">Importe otros tributos:</td>
+          <td class="right-text" style="width: 20%;">$0</td>
+        </tr>
+        <tr>
+          <td class="right-text">Importe total:</td>
+          <td class="right-text" style="width: 20%;">${{importe}}</td>
+        </tr>
+      </table>
+    </div>
+    <div>
+      <table class="responsive-table">
+        <tr>
+          <td><strong>CAE N°</strong>: {{CAE}}</td>
+          <td class="right-text"><strong>Fecha de Vto. de CAE</strong>: {{vtoCAE}}</td>
+        </tr>
+        <tr>
+          <td colspan="2" height="100px"><img src="{{qr}}"/></td>
+        </tr>  
+      </table>
+    </div>
+  </page>
+</body>
+
+</html>

@@ -3,17 +3,16 @@
   "description": "Comunicación con los web services de AFIP utilizando nodejs.",
   "author": "Emilio Astarita",
   "licence": "MIT",
-  "version": "0.2.0",
+  "version": "0.1.7",
   "engines": {
     "node": ">=6.0.0"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "prettier": "prettier --write \"src/**/*.{md,json,ts}\"",
     "build": "tsc",
     "clean": "rm -rf dist/*",
-    "prepare": "yarn prettier; yarn clean ; yarn build"
+    "prepare": "npm run clean ; npm run build"
   },
   "repository": {
     "type": "git",
@@ -36,20 +35,24 @@
     "nodejs"
   ],
   "dependencies": {
+    "csv-parser": "^3.0.0",
     "debug": "^4.3.1",
     "moment": "^2.29.1",
     "node-forge": "^0.10.0",
-    "ntpclient": "^1.1.2",
-    "soap": "^0.37.0",
+    "node-html-to-image": "^3.1.0",
+    "ntpclient": "^1.0.2",
+    "qrcode": "^1.4.4",
+    "soap": "^0.36.0",
     "source-map-support": "^0.5.19",
-    "uniqid": "^5.3.0",
+    "uniqid": "^5.2.0",
     "xml2js": "^0.4.23"
   },
   "devDependencies": {
-    "@types/node-forge": "^0.9.7",
-    "@types/uniqid": "^5.3.0",
-    "@types/xml2js": "^0.4.8",
+    "@types/node-forge": "^0.9.6",
+    "@types/qrcode": "^1.4.0",
+    "@types/uniqid": "^5.2.0",
+    "@types/xml2js": "^0.4.7",
     "prettier": "^2.2.1",
-    "typescript": "^4.2.4"
+    "typescript": "^4.1.3"
   }
 }
